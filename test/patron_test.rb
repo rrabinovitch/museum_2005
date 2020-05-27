@@ -8,6 +8,6 @@ class PatronTest < Minitest::Test
   end
 
   def test_it_exists
-    assert_instance_of Patron, @patron
+    assert_instance_of Patron, @patron_1
   end
 end
