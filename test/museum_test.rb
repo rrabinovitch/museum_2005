@@ -61,4 +61,11 @@ class MuseumTest < Minitest::Test
 
     assert_equal [@patron_1, @patron_2, @patron_3], @dmns.patrons
   end
+
+  def test_it_can_list_patrons_by_exhibit_interest
+    exhibit_interests = {@gems_and_minerals => [@patron_1],
+                                        @dead_sea_scrolls => [@patron_1, @patron_3, @patron_3],
+                                        @imax => []}
+    assert_equal exhibit_interests, @dmns.patrons_by_exhibit_interest
+  end
 end
