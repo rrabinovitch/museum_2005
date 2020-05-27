@@ -40,14 +40,11 @@ class Museum
       end
       exhibit_interests
     end
-    # 
-    # -{#<Exhibit:0xXXXXXX @name="Gems and Minerals", @cost=0>=>[#<Patron:0xXXXXXX @name="Bob", @spending_money=20, @interests=["Dead Sea Scrolls", "Gems and Minerals"]>], #<Exhibit:0xXXXXXX @name="Dead Sea Scrolls", @cost=10>=>[#<Patron:0xXXXXXX @name="Bob", @spending_money=20, @interests=["Dead Sea Scrolls", "Gems and Minerals"]>, #<Patron:0xXXXXXX @name="Johnny", @spending_money=5, @interests=["Dead Sea Scrolls"]>, #<Patron:0xXXXXXX @name="Sally", @spending_money=20, @interests=["IMAX"]>], #<Exhibit:0xXXXXXX @name="IMAX", @cost=15>=>[]}
-    # +{#<Exhibit:0xXXXXXX @name="Gems and Minerals", @cost=0>=>[#<Patron:0xXXXXXX @name="Bob", @spending_money=20, @interests=["Dead Sea Scrolls", "Gems and Minerals"]>], #<Exhibit:0xXXXXXX @name="Dead Sea Scrolls", @cost=10>=>[#<Patron:0xXXXXXX @name="Bob", @spending_money=20, @interests=["Dead Sea Scrolls", "Gems and Minerals"]>, #<Patron:0xXXXXXX @name="Johnny", @spending_money=5, @interests=["Dead Sea Scrolls"]>], #<Exhibit:0xXXXXXX @name="IMAX", @cost=15>=>[#<Patron:0xXXXXXX @name="Sally", @spending_money=20, @interests=["IMAX"]>]}
+  end
 
-
-
-
-
-
+  def ticket_lottery_contestants(exhibit)
+    @patrons.find_all do |patron|
+      patron.spending_money < exhibit.cost
+    end
   end
 end
