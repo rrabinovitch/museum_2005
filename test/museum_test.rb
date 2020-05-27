@@ -87,19 +87,13 @@ class MuseumTest < Minitest::Test
     @dmns.admit(@patron_2)
     @dmns.admit(@patron_3)
 
-    # @dmns.add_exhibit(@gems_and_minerals)
-    # @dmns.add_exhibit(@dead_sea_scrolls)
-    # @dmns.add_exhibit(@imax)
-    #
-    # @dmns.admit(@patron_1)
-    # @dmns.admit(@patron_2)
-    # @dmns.admit(@patron_3)
-
-
-
     exhibit_interests = {@gems_and_minerals => [@patron_1],
                         @dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
                         @imax => []}
     assert_equal exhibit_interests, @dmns.patrons_by_exhibit_interest
+  end
+
+  def test_it_can_select_lottery_contestants
+    assert_equal [@patron_1, @patron_3], @dmns.ticket_lottery_contestants(@dead_sea_scrolls)
   end
 end
