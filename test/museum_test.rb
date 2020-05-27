@@ -94,6 +94,22 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_select_lottery_contestants
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+
+    @patron_1 = Patron.new("Bob", 0)
+    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+    @patron_2 = Patron.new("Sally", 20)
+    @patron_2.add_interest("Dead Sea Scrolls")
+    @patron_3 = Patron.new("Johnny", 5)
+    @patron_3.add_interest("Dead Sea Scrolls")
+
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+
     assert_equal [@patron_1, @patron_3], @dmns.ticket_lottery_contestants(@dead_sea_scrolls)
   end
 end
