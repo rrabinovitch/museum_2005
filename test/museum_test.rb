@@ -14,4 +14,8 @@ class MuseumTest < Minitest::Test
   def test_it_has_a_name
     assert_equal "Denver Museum of Nature and Science", @dmns.name
   end
+
+  def test_it_starts_with_no_exhibits
+    assert_empty @dmns.exhibits
+  end
 end
