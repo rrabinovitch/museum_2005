@@ -15,19 +15,23 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_exists
+    skip
     assert_instance_of Museum, @dmns
   end
 
   def test_it_has_a_name
+    skip
     assert_equal "Denver Museum of Nature and Science", @dmns.name
   end
 
   def test_it_starts_with_no_exhibits_and_no_patrons
+    skip
     assert_empty @dmns.exhibits
     assert_empty @dmns.patrons
   end
 
   def test_exhibits_can_be_added
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -37,6 +41,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_recommend_exhibits
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -52,6 +57,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_admit_patrons
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -72,6 +78,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_list_patrons_by_exhibit_interest
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -95,6 +102,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_select_lottery_contestants
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -115,6 +123,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_there_are_no_contestants_if_none_interested_in_exhibit
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -135,6 +144,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_draw_a_lottery_winner
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -160,6 +170,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_announce_lottery_winner
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -182,6 +193,7 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_doesnt_report_a_winner_if_no_contestants
+    skip
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
@@ -201,4 +213,68 @@ class MuseumTest < Minitest::Test
     announcement = "No winners for this lottery"
     assert_equal announcement, @dmns.announce_lottery_winner(@imax)
   end
+
+  def test_patron_without_enough_money_cant_attend_exhibit
+    skip
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@imax)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+
+    @tj = Patron.new("TJ", 7)
+    @tj.add_interest("IMAX")
+    @tj.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@tj)
+
+    assert_equal 7, @tj.spending_money
+  end
+
+  def test_patrons_only_attend_exhibits_they_have_enough_money_for
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@imax)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+
+    @patron_1 = Patron.new("Bob", 10)
+    @patron_1.add_interest("Dead Sea Scrolls")
+    @patron_1.add_interest("IMAX")
+    @dmns.admit(@patron_1)
+
+    assert_equal 10, @patron_1.spending_money
+
+    @patron_2 = Patron.new("Sally", 20)
+    @patron_2.add_interest("IMAX")
+    @patron_2.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@patron_2)
+
+    assert_equal 5, @patron_2.spending_money
+
+    @morgan = Patron.new("Morgan", 15)
+    @morgan.add_interest("Gems and Minerals")
+    @morgan.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@morgan)
+
+    assert_equal 5, @morgan.spending_money
+  end
+
+  # * When a `Patron` is admitted to the `Museum`, they attend `Exhibits`.
+  # => The `Exhibits` that a `Patron` attends follows these rules:
+
+  # * A Patron will only attend `Exhibits` they are interested in
+
+  # * A Patron will attend an `Exhibit` with a higher cost before an
+  # => `Exhibit` with a lower cost.
+
+  # * If a `Patron` does not have enough `spending_money` to cover
+  # => the cost of the `Exhbit`, they will not attend the `Exhibit`.
+
+  # * When the Patron attends an `Exhibit`, the cost of the `Exhibit`
+  # =>  should be subtracted from their `spending_money` and added to
+  # =>  the `Museum` revenue.
+
+  # * A `Museum` should have a `patrons_of_exhibits` method that returns
+  # =>  a Hash where the keys are the exhibits and the values are Arrays
+  # =>  containing all the `Patrons` that attended that `Exhibit`.
+
+  # * A `Museum` should have a method `revenue` that returns an Integer
+  # =>  representing the revenue collected from `Patrons` attending `Exhibits`.
+
 end
