@@ -1,10 +1,11 @@
 class Museum
-  attr_reader :name, :exhibits, :patrons
+  attr_reader :name, :exhibits, :patrons, :revenue
 
   def initialize(name)
     @name = name
     @exhibits = []
     @patrons = []
+    @revenue = 0
   end
 
   def add_exhibit(exhibit)
@@ -43,14 +44,9 @@ class Museum
     ordered_by_cost.each do |exhibit|
       if exhibit.cost < patron.spending_money
         patron.spending_money -= exhibit.cost
+        @revenue += exhibit.cost
       end
     end
-
-
-    # iterate through a patron's interests to identify cost of each
-    # organize (sort_by) exhibits by cost
-    # if cost of first exhibit is within their spending capacity remove that amount from their $
-    # if not, don't take any money away
   end
 
   def patrons_by_exhibit_interest
