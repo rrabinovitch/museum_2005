@@ -26,6 +26,31 @@ class Museum
 
   def admit(patron)
     @patrons << patron
+
+    # refactor by moving all code below into patron.attend method to be called on here
+    exhibit_interest_objects = []
+
+    @exhibits.each do |exhibit|
+      patron.interests.each do |interest|
+        if exhibit.name == interest
+          exhibit_interest_objects << exhibit
+        end
+      end
+    end
+
+    ordered_by_cost = exhibit_interest_objects.sort_by(&:cost).reverse
+
+    ordered_by_cost.each do |exhibit|
+      if exhibit.cost < patron.spending_money
+        patron.spending_money -= exhibit.cost
+      end
+    end
+
+
+    # iterate through a patron's interests to identify cost of each
+    # organize (sort_by) exhibits by cost
+    # if cost of first exhibit is within their spending capacity remove that amount from their $
+    # if not, don't take any money away
   end
 
   def patrons_by_exhibit_interest
